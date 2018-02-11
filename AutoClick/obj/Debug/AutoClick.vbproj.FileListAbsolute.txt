@@ -1,0 +1,11 @@
+c:\users\pc\documents\visual studio 2015\Projects\AutoClick\AutoClick\bin\Debug\AutoClick.exe.config
+C:\Users\PC\Documents\Visual Studio 2015\Projects\AutoClick\AutoClick\bin\Debug\AutoClick.exe
+C:\Users\PC\Documents\Visual Studio 2015\Projects\AutoClick\AutoClick\bin\Debug\AutoClick.pdb
+C:\Users\PC\Documents\Visual Studio 2015\Projects\AutoClick\AutoClick\bin\Debug\AutoClick.xml
+C:\Users\PC\Documents\Visual Studio 2015\Projects\AutoClick\AutoClick\obj\Debug\AutoClick.vbprojResolveAssemblyReference.cache
+C:\Users\PC\Documents\Visual Studio 2015\Projects\AutoClick\AutoClick\obj\Debug\AutoClick.Form1.resources
+C:\Users\PC\Documents\Visual Studio 2015\Projects\AutoClick\AutoClick\obj\Debug\AutoClick.Resources.resources
+C:\Users\PC\Documents\Visual Studio 2015\Projects\AutoClick\AutoClick\obj\Debug\AutoClick.vbproj.GenerateResource.Cache
+C:\Users\PC\Documents\Visual Studio 2015\Projects\AutoClick\AutoClick\obj\Debug\AutoClick.exe
+C:\Users\PC\Documents\Visual Studio 2015\Projects\AutoClick\AutoClick\obj\Debug\AutoClick.xml
+C:\Users\PC\Documents\Visual Studio 2015\Projects\AutoClick\AutoClick\obj\Debug\AutoClick.pdb
