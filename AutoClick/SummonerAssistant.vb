@@ -1,5 +1,5 @@
 ﻿Imports System.Runtime.InteropServices
-Public Class Form1
+Public Class SummonerAssistant
 
 #Region "Findwindow"
     <DllImport("user32.dll", SetLastError:=True, CharSet:=CharSet.Auto)>
@@ -32,6 +32,18 @@ Public Class Form1
     Private Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Integer)
 #End Region
 
+    Public Declare Function GetWindowRect Lib "user32" (ByVal hwnd As Integer, ByRef lpRect As RECT) As Integer
+    Public Declare Function GetClientRect Lib "user32" (ByVal hwnd As Integer, ByRef lpRect As RECT) As Integer
+
+    Public Structure RECT
+        Dim Left As Integer
+        Dim Top As Integer
+        Dim Right As Integer
+        Dim Bottom As Integer
+    End Structure
+
+    Dim rectwin As RECT
+
 #Region "CaptureDC"
     Private Declare Function CreateDC Lib "gdi32" Alias "CreateDCA" (ByVal lpDriverName As String, ByVal lpDeviceName As String, ByVal lpOutput As String, ByVal lpInitData As String) As Integer
     Private Declare Function CreateCompatibleDC Lib "GDI32" (ByVal hDC As Integer) As Integer
@@ -54,7 +66,7 @@ Public Class Form1
     Public Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal hwnd As Integer, ByVal wMsg As Integer, ByVal wParam As Integer, ByVal lParam As Integer) As Integer
     Public Declare Function PostMessage Lib "user32" Alias "PostMessageA" (ByVal hwnd As Integer, ByVal wMsg As Integer, ByVal wParam As Integer, ByVal lParam As Integer) As Integer
     Public Const WM_MOUSE_MOVE = &H200
-    Public Const WM_LBUTTON_DOWN = &H201
+    Public Const WM_LBUTTON_DOWN = &H201 '0x C# 16x = &H
     Public Const WM_LBUTTON_UP = &H202
     Public Const WM_KEYDOWN = &H100
     Public Const WM_KEYUP = &H101
@@ -66,6 +78,8 @@ Public Class Form1
     End Function
 #End Region
 
+    Public Declare Function OpenProcess Lib "kernel32" (ByVal dwDesiredAccess As Integer, ByVal bInheritHandle As Integer, ByVal dwProcessId As Integer) As Integer
+    Public Declare Function GetWindowThreadProcessId Lib "user32" (ByVal hwnd As Integer, lpdwProcessId As Integer) As Integer
 #Region "Basic"
     Dim hwnd, hwnd2, hwnd3 As Integer
     Dim bmpBackground, SubBackground As Bitmap
@@ -74,10 +88,11 @@ Public Class Form1
     Dim bmpHandle, OLDbmpHandle As Integer
     Dim releaseDC As Integer
     Dim index As Integer = 10
-    Dim img(Index) As Bitmap
-    Dim pt(Index) As Point
+    Dim img(index) As Bitmap
+    Dim pt(index) As Point
     Dim turn, sturn As Point
-    Dim target As String = "BlueStacks Android Plugin"
+    Dim target As String = "BlueStacks Android PluginAndroid"
+
 #End Region
 
     Function GetBitmap(Optional ByVal hwnd As Integer = 0, Optional ByVal BitWidth As Integer = -1, Optional ByVal BitHeight As Integer = -1) As Bitmap
@@ -130,8 +145,10 @@ Public Class Form1
         'hsdc = CreateDC("DISPLAY", "", "", "")
         hmdc = CreateCompatibleDC(hsdc)
 
-        intWidth = GetDeviceCaps(hsdc, 8) '8 or 10
-        intHeight = GetDeviceCaps(hsdc, 10)
+        'intWidth = GetDeviceCaps(hsdc, 8) '8 or 10
+        'intHeight = GetDeviceCaps(hsdc, 10)
+        intWidth = rectwin.Right - rectwin.Left
+        intHeight = rectwin.Bottom - rectwin.Top
 
         bmpHandle = CreateCompatibleBitmap(hsdc, intWidth, intHeight)
 
@@ -159,13 +176,12 @@ Public Class Form1
         releaseDC = BitBlt(hmdc, 0, 0, intWidth, intHeight, hsdc, 0, 0, 13369376)
         bmpHandle = SelectObject(hmdc, OLDbmpHandle)
 
-        releaseDC = DeleteDC(hsdc)
+        'releaseDC = DeleteDC(hsdc)
         releaseDC = DeleteDC(hmdc)
 
         SubBackground = Image.FromHbitmap(New IntPtr(bmpHandle))
         DeleteObject(bmpHandle)
     End Sub
-
 
     Public Function SearchBitmap(mainBmp As Bitmap, childBmp As Bitmap, Optional ByVal LocationX As Integer = -1, Optional ByVal LocationY As Integer = -1) As Point
         'mainBmp 大圖 childBmp 目標圖 locationX Y = 從哪裡找 (效率)
@@ -228,24 +244,29 @@ Public Class Form1
     End Function
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        ' 0902 -> Setparent window on BlueStacks . Select DirectX GPU + CaptureSrceen
+        index = 0
+        img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\flash.png") : pt(index) = New Point(643, 405) : index += 1
+        img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\sell.png") : pt(index) = New Point(511, 616) : index += 1
+        img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\check.png") : pt(index) = New Point(612, 598) : index += 1
+        img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\GetMonsterCheck.png") : pt(index) = New Point(612, 643) : index += 1
+        img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\again_contentbar.png") : pt(index) = New Point(332, 432) : index += 1
+        'img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\cancel.png") : pt(index) = New Point(847, 239) : index += 1
 
         index = 0
-        img(index) = Image.FromFile("C:\Users\PC\Desktop\MG\Auto_Mountain\flash.png") : pt(index) = New Point(830, 444) : index += 1
-        img(index) = Image.FromFile("C:\Users\PC\Desktop\MG\Auto_Mountain\sell.png") : pt(index) = New Point(663, 693) : index += 1
-        img(index) = Image.FromFile("C:\Users\PC\Desktop\MG\Auto_Mountain\check.png") : pt(index) = New Point(778, 677) : index += 1
-        img(index) = Image.FromFile("C:\Users\PC\Desktop\MG\Auto_Mountain\check_dog.png") : pt(index) = New Point(775, 721) : index += 1
-        img(index) = Image.FromFile("C:\Users\PC\Desktop\MG\Auto_Mountain\again.png") : pt(index) = New Point(364, 480) : index += 1
-        img(index) = Image.FromFile("C:\Users\PC\Desktop\MG\Auto_Mountain\startbattle.png") : pt(index) = New Point(1288, 654) : index += 1
-        index = 0
 
-        hwnd = FindWindow(vbNullString, "BlueStacks App Player")
+        hwnd = FindWindow(vbNullString, "BlueStacks")
+
         If (hwnd) Then
             EnumWindows(hwnd)
         End If
         Me.Text = hwnd2.ToString
-        'hwnd2 = FindWindowEx(hwnd, IntPtr.Zero, vbNullString, vbNullString)
+        hwnd2 = FindWindowEx(hwnd, IntPtr.Zero, vbNullString, vbNullString)
         SetParent(hwnd, PictureBox1.Handle)
         SetWindowPos(hwnd, 0, 0, 0, Me.Width, Me.Height, 4)
+
+        GetWindowRect(hwnd, rectwin)
+        'Me.Text = rectwin.Left.ToString + " " + rectwin.Right.ToString + " " + rectwin.Top.ToString + " " + rectwin.Bottom.ToString
 
         Timer1.Enabled = False
         Timer2.Enabled = True
@@ -307,22 +328,41 @@ Public Class Form1
 
     End Sub
 
+    Private Sub SimulatePressPtrScr()
+
+        'Simulate Press PrtSrc Button
+
+        SendKeys.Send("%")
+        System.Windows.Forms.SendKeys.Send("%{PRTSC}")
+        Sleep(100)
+        Dim bmp As Bitmap = CType(Clipboard.GetDataObject().GetData(DataFormats.Bitmap), Bitmap)
+        'bmp.Save("C:\Users\ReplacedToy\Desktop\test1.jpg", System.Drawing.Imaging.ImageFormat.Jpeg)
+        Me.BackgroundImage = bmpBackground
+        bmp.Save("test1.jpg", System.Drawing.Imaging.ImageFormat.Jpeg)
+        bmp.Dispose()
+        Me.BackgroundImage = Nothing
+        Me.Refresh()
+        Timer3.Enabled = False
+
+    End Sub
+
     Private Sub Timer1_Tick(sender As System.Object, e As System.EventArgs) Handles Timer1.Tick
         CaptureScreen()
         PictureBox1.Image = bmpBackground
 
         turn = SearchBitmap(bmpBackground, img(index), pt(index).X, pt(index).Y)
         If (turn <> pt(index)) Then
-            'Label9.Text = "mei u"
+            Me.Text = "AutoClick Searching ... Index : " + index.ToString() + " (False)"
         Else
-            'Label9.Text = "u"
-            Me.Text = index.ToString
-            SendClick(index)
+            Me.Text = "AutoClick Searching ... Index : " + index.ToString() + " (True) , SearchPoint = (" + turn.X.ToString() + " , " + turn.Y.ToString() + ")"
+
             If (index = 0) Then
                 SendClick(index)
-                Sleep(500)
+                Sleep(200)
                 SendClick(index)
-                Sleep(900)
+                Sleep(400)
+                SendClick(index)
+                Sleep(800)
                 CaptureSubScreen()
                 For st = 1 To 3
                     If (SubBG(st) = True) Then
@@ -332,13 +372,18 @@ Public Class Form1
                 Next
                 Sleep(100)
                 SubBackground.Dispose()
-            ElseIf index = 1 Or index = 2 Or index = 3 Then
+            ElseIf index = 1 Then
+                SendClick(index) ' 1 = Press B
                 index = 4
-            ElseIf index = 5 Then
+            ElseIf index = 2 Or index = 3 Then
+                SendClick(2) ' 2 = Press C
+                index = 4
+            ElseIf index = 4 Then
+                'SendClick(index)
+                SendClick(3) '3 = Press D
                 index = 0
-            Else
-                index += 1
             End If
+
             'PictureBox1.Image.Save("Capture_B1.png")
         End If
         bmpBackground.Dispose()
@@ -349,13 +394,55 @@ Public Class Form1
             Timer1.Enabled = True
         ElseIf GetAsyncKeyState(Keys.F2) Then
             Timer1.Enabled = False
-        ElseIf GetAsyncKeyState(Keys.F3) Then
+            Me.Text = "AutoClick Stop."
+        ElseIf GetAsyncKeyState(Keys.F3) Then 'Search Bitmap
             Timer3.Enabled = True
+        ElseIf GetAsyncKeyState(Keys.F4) Then 'Capture winform Window
+            Timer4.Enabled = True
+        ElseIf GetAsyncKeyState(Keys.F5) Then
+            index += 1
+            Me.Text = "index = " + index.ToString()
+        ElseIf GetAsyncKeyState(Keys.F6) Then
+            index = 0
+            Me.Text = "index = " + index.ToString()
+        ElseIf GetAsyncKeyState(Keys.F7) Then
+            'Simulate Press Key
+            SendClick(index)
         End If
     End Sub
 
     Private Sub Timer3_Tick(sender As Object, e As EventArgs) Handles Timer3.Tick
-        index = 0
-        Me.Text = index.ToString
+
+        Dim SearchResult As Point
+        CaptureScreen()
+        PictureBox1.Image = bmpBackground
+
+        SearchResult = SearchBitmap(bmpBackground, img(index), pt(index).X, pt(index).Y)
+        Me.Text = "SearchResult = (" + SearchResult.X.ToString() + " , " + SearchResult.Y.ToString() + ")"
+
+        bmpBackground.Dispose()
+
+        Timer3.Stop()
     End Sub
+
+    Private Sub Timer4_Tick(sender As Object, e As EventArgs) Handles Timer4.Tick
+
+        index += 1
+        Me.Text = index.ToString
+
+        Dim dt As DateTime = DateTime.Now
+        Dim str As String = dt.ToString("yyyy-MM-dd-hh-mm-ss")
+        Console.WriteLine("dt : " + str)
+        CaptureScreen()
+        'bmpBackground.Save("CaptureScreen_" + index.ToString + ".png")
+        bmpBackground.Save("CaptureScreen_" + str + ".png")
+        Me.Text = Me.Text + " , " + str
+
+        Sleep(100)
+
+        bmpBackground = Nothing
+
+        Timer4.Enabled = False
+    End Sub
+
 End Class

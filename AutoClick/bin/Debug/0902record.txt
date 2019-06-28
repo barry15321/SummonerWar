@@ -1,0 +1,2 @@
+bluestack -> 必須設定 DirectX 
+Setparent + CaptureSrceen OpenGL 對me.handle 截取不到畫面
