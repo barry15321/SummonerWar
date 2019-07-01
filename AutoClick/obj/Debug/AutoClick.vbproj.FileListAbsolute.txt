@@ -37,7 +37,6 @@ D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\AutoClick.exe.config
 D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\AutoClick.exe
 D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\AutoClick.pdb
 D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\AutoClick.xml
-D:\AutoClick(Summoner War) - (Sub)\AutoClick\obj\Debug\AutoClick.vbprojResolveAssemblyReference.cache
 D:\AutoClick(Summoner War) - (Sub)\AutoClick\obj\Debug\AutoClick.Resources.resources
 D:\AutoClick(Summoner War) - (Sub)\AutoClick\obj\Debug\AutoClick.vbproj.GenerateResource.Cache
 D:\AutoClick(Summoner War) - (Sub)\AutoClick\obj\Debug\AutoClick.vbproj.CoreCompileInputs.cache
@@ -45,3 +44,4 @@ D:\AutoClick(Summoner War) - (Sub)\AutoClick\obj\Debug\AutoClick.exe
 D:\AutoClick(Summoner War) - (Sub)\AutoClick\obj\Debug\AutoClick.xml
 D:\AutoClick(Summoner War) - (Sub)\AutoClick\obj\Debug\AutoClick.pdb
 D:\AutoClick(Summoner War) - (Sub)\AutoClick\obj\Debug\AutoClick.SummonerAssistant.resources
+D:\AutoClick(Summoner War) - (Sub)\AutoClick\obj\Debug\AutoClick.vbprojResolveAssemblyReference.cache

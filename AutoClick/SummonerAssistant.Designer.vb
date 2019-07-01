@@ -62,7 +62,7 @@ Partial Class SummonerAssistant
         'Timer4
         '
         '
-        'Form1
+        'SummonerAssistant
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -70,7 +70,7 @@ Partial Class SummonerAssistant
         Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.Button1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
-        Me.Name = "Form1"
+        Me.Name = "SummonerAssistant"
         Me.Text = "SummonersWar"
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)

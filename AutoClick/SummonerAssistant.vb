@@ -380,7 +380,7 @@ Public Class SummonerAssistant
                 index = 4
             ElseIf index = 4 Then
                 'SendClick(index)
-                SendClick(3) '3 = Press D
+                SendClick(3) ' = Press D
                 index = 0
             End If
 
@@ -445,4 +445,26 @@ Public Class SummonerAssistant
         Timer4.Enabled = False
     End Sub
 
+    Sub OriginTimer5()
+        'To Check if the network get delay
+        Dim CurrentImage As Image = BackgroundImage.Clone()
+        Dim CurrentIndexValue As Integer = index
+
+        Sleep(2000)
+        Console.WriteLine("CurrentIndexValue = " + CurrentIndexValue)
+
+        CaptureSubScreen()
+        Dim SubCopyImage As Image = SubBackground.Clone()
+
+        Dim NetworkDelaySearch As Point = SearchBitmap(SubCopyImage, img(CurrentIndexValue), pt(CurrentIndexValue).X, pt(CurrentIndexValue).Y)
+        If (NetworkDelaySearch <> pt(CurrentIndexValue)) Then
+        Else
+            'Found
+            If index = 1 Then
+                SendClick(1)
+            ElseIf index = 4 Then
+                SendClick(3)
+            End If
+        End If
+    End Sub
 End Class
