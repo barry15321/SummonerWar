@@ -29,6 +29,7 @@ Partial Class SummonerAssistant
         Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Timer4 = New System.Windows.Forms.Timer(Me.components)
+        Me.Timer5 = New System.Windows.Forms.Timer(Me.components)
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -62,6 +63,11 @@ Partial Class SummonerAssistant
         'Timer4
         '
         '
+        'Timer5
+        '
+        Me.Timer5.Enabled = True
+        Me.Timer5.Interval = 25000
+        '
         'SummonerAssistant
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
@@ -82,4 +88,5 @@ Partial Class SummonerAssistant
     Friend WithEvents Timer3 As Timer
     Friend WithEvents Button1 As Button
     Friend WithEvents Timer4 As Timer
+    Friend WithEvents Timer5 As Timer
 End Class

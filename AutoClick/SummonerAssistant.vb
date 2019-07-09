@@ -92,6 +92,9 @@ Public Class SummonerAssistant
     Dim pt(index) As Point
     Dim turn, sturn As Point
     Dim target As String = "BlueStacks Android PluginAndroid"
+    Dim IndexCounter As Integer = 0
+    Dim TimerIndexCheck As Integer = -1
+    Dim SendClickTracker(10) As Integer
 
 #End Region
 
@@ -253,8 +256,11 @@ Public Class SummonerAssistant
         img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\again_contentbar.png") : pt(index) = New Point(332, 432) : index += 1
         'img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\cancel.png") : pt(index) = New Point(847, 239) : index += 1
 
-        index = 0
+        'img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\BlackholeImage\cyrstal.png") : pt(index) = New Point(751, 419) : index += 1
+        'img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\BlackholeImage\check.png") : pt(index) = New Point(616, 652) : index += 1
+        'img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\BlackholeImage\content_bar.png") : pt(index) = New Point(427, 426) : index += 1
 
+        index = 0
         hwnd = FindWindow(vbNullString, "BlueStacks")
 
         If (hwnd) Then
@@ -321,7 +327,8 @@ Public Class SummonerAssistant
         ElseIf index = 5 Then
             key = Keys.F
         End If
-
+        SendClickTracker(IndexCounter) = index
+        IndexCounter += 1
         PostMessage(hwnd2, WM_KEYDOWN, key, MAKELPARAM(key, WM_KEYDOWN))
         PostMessage(hwnd2, WM_KEYUP, key, MAKELPARAM(key, WM_KEYUP))
         Sleep(500)
@@ -371,6 +378,7 @@ Public Class SummonerAssistant
                     End If
                 Next
                 Sleep(100)
+                SendClickTracker_Track()
                 SubBackground.Dispose()
             ElseIf index = 1 Then
                 SendClick(index) ' 1 = Press B
@@ -379,7 +387,6 @@ Public Class SummonerAssistant
                 SendClick(2) ' 2 = Press C
                 index = 4
             ElseIf index = 4 Then
-                'SendClick(index)
                 SendClick(3) ' = Press D
                 index = 0
             End If
@@ -387,6 +394,39 @@ Public Class SummonerAssistant
             'PictureBox1.Image.Save("Capture_B1.png")
         End If
         bmpBackground.Dispose()
+
+#Region "Blackhole"
+
+        'CaptureScreen()
+        'PictureBox1.Image = bmpBackground
+        'turn = SearchBitmap(bmpBackground, img(index), pt(index).X, pt(index).Y)
+        'If (turn <> pt(index)) Then
+        '    Me.Text = "AutoClick Searching ... Index : " + index.ToString() + " (False)"
+        'Else
+        '    Me.Text = "AutoClick Searching ... Index : " + index.ToString() + " (True) , SearchPoint = (" + turn.X.ToString() + " , " + turn.Y.ToString() + ")"
+
+        '    If (index = 0) Then
+        '        SendClick(index)
+        '        Sleep(200)
+        '        SendClick(index)
+        '        Sleep(400)
+        '        SendClick(index)
+        '        Sleep(800)
+        '        SendClickTracker_Track()
+        '        index = 1
+        '    ElseIf index = 1 Then
+        '        SendClick(2) ' 2 = Press C
+        '        index = 2
+        '    ElseIf index = 2 Then
+        '        SendClick(3)
+        '        index = 0
+        '    End If
+
+        '    'PictureBox1.Image.Save("Capture_B1.png")
+        'End If
+        'bmpBackground.Dispose()
+#End Region
+
     End Sub
 
     Private Sub Timer2_Tick(sender As System.Object, e As System.EventArgs) Handles Timer2.Tick
@@ -445,26 +485,45 @@ Public Class SummonerAssistant
         Timer4.Enabled = False
     End Sub
 
-    Sub OriginTimer5()
-        'To Check if the network get delay
-        Dim CurrentImage As Image = BackgroundImage.Clone()
-        Dim CurrentIndexValue As Integer = index
+    Private Sub Timer5_Tick(sender As Object, e As EventArgs) Handles Timer5.Tick
 
-        Sleep(2000)
-        Console.WriteLine("CurrentIndexValue = " + CurrentIndexValue)
+        If TimerIndexCheck = index Then
+            Console.WriteLine("TimerIndexCheck = " + TimerIndexCheck.ToString())
+            SendClickTracker_Track()
+        End If
 
-        CaptureSubScreen()
-        Dim SubCopyImage As Image = SubBackground.Clone()
+        TimerIndexCheck = index
+    End Sub
 
-        Dim NetworkDelaySearch As Point = SearchBitmap(SubCopyImage, img(CurrentIndexValue), pt(CurrentIndexValue).X, pt(CurrentIndexValue).Y)
-        If (NetworkDelaySearch <> pt(CurrentIndexValue)) Then
-        Else
-            'Found
-            If index = 1 Then
-                SendClick(1)
-            ElseIf index = 4 Then
-                SendClick(3)
+    Public Sub SendClickTracker_Track()
+
+        If (IndexCounter > 0) Then
+
+            Dim str As String = ""
+            For i As Integer = 0 To IndexCounter - 1
+                str += SendClickTracker(i).ToString() + "  "
+            Next
+            Console.WriteLine($"SendClickTrackList Record ( Length = " + IndexCounter.ToString() + ") : " + str)
+
+            Dim SendValue As Integer = 0
+            Dim LastClickIndex As Integer = SendClickTracker(IndexCounter - 1)
+
+            If LastClickIndex = 1 Then
+                SendValue = 1
+            ElseIf LastClickIndex = 2 Or LastClickIndex = 3 Then
+                SendValue = 2
+            ElseIf LastClickIndex = 4 Then
+                SendValue = 3
             End If
+
+            Console.WriteLine($"LastClickIndex : " + SendClickTracker(IndexCounter - 1).ToString() + " , SendValue Should be : " + SendValue.ToString())
+            Console.WriteLine()
+
+            SendClick(SendValue)
+            Sleep(100)
+            SendClick(SendValue)
+
+            IndexCounter = 0
         End If
     End Sub
 End Class
