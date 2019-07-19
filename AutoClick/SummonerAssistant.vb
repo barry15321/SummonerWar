@@ -249,16 +249,16 @@ Public Class SummonerAssistant
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         ' 0902 -> Setparent window on BlueStacks . Select DirectX GPU + CaptureSrceen
         index = 0
-        img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\flash.png") : pt(index) = New Point(643, 405) : index += 1
-        img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\sell.png") : pt(index) = New Point(511, 616) : index += 1
-        img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\check.png") : pt(index) = New Point(612, 598) : index += 1
-        img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\GetMonsterCheck.png") : pt(index) = New Point(612, 643) : index += 1
-        img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\again_contentbar.png") : pt(index) = New Point(332, 432) : index += 1
+        'img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\flash.png") : pt(index) = New Point(643, 405) : index += 1
+        'img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\sell.png") : pt(index) = New Point(511, 616) : index += 1
+        'img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\check.png") : pt(index) = New Point(612, 598) : index += 1
+        'img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\GetMonsterCheck.png") : pt(index) = New Point(612, 643) : index += 1
+        'img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\again_contentbar.png") : pt(index) = New Point(332, 432) : index += 1
         'img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\cancel.png") : pt(index) = New Point(847, 239) : index += 1
 
-        'img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\BlackholeImage\cyrstal.png") : pt(index) = New Point(751, 419) : index += 1
-        'img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\BlackholeImage\check.png") : pt(index) = New Point(616, 652) : index += 1
-        'img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\BlackholeImage\content_bar.png") : pt(index) = New Point(427, 426) : index += 1
+        img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\BlackholeImage\cyrstal.png") : pt(index) = New Point(751, 419) : index += 1
+        img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\BlackholeImage\check.png") : pt(index) = New Point(616, 652) : index += 1
+        img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\BlackholeImage\content_bar.png") : pt(index) = New Point(427, 426) : index += 1
 
         index = 0
         hwnd = FindWindow(vbNullString, "BlueStacks")
@@ -316,16 +316,22 @@ Public Class SummonerAssistant
         Dim key As Integer
         If (index = 0) Then
             key = Keys.A
+            Console.WriteLine("$Click A")
         ElseIf index = 1 Then
             key = Keys.B
+            Console.WriteLine("$Click B")
         ElseIf index = 2 Then
             key = Keys.C
+            Console.WriteLine("$Click C")
         ElseIf index = 3 Then
             key = Keys.D
+            Console.WriteLine("$Click D")
         ElseIf index = 4 Then
             key = Keys.E
+            Console.WriteLine("$Click E")
         ElseIf index = 5 Then
             key = Keys.F
+            Console.WriteLine("$Click F")
         End If
         SendClickTracker(IndexCounter) = index
         IndexCounter += 1
@@ -391,7 +397,7 @@ Public Class SummonerAssistant
                 index = 0
             End If
 
-            'PictureBox1.Image.Save("Capture_B1.png")
+            PictureBox1.Image.Save("Capture_B1.png")
         End If
         bmpBackground.Dispose()
 
@@ -422,7 +428,7 @@ Public Class SummonerAssistant
         '        index = 0
         '    End If
 
-        '    'PictureBox1.Image.Save("Capture_B1.png")
+        '    PictureBox1.Image.Save("Capture_B1.png")
         'End If
         'bmpBackground.Dispose()
 #End Region
@@ -503,10 +509,20 @@ Public Class SummonerAssistant
             For i As Integer = 0 To IndexCounter - 1
                 str += SendClickTracker(i).ToString() + "  "
             Next
-            Console.WriteLine($"SendClickTrackList Record ( Length = " + IndexCounter.ToString() + ") : " + str)
+            Console.WriteLine($"Offset Click , List ( Length = " + IndexCounter.ToString() + ") : " + str)
 
             Dim SendValue As Integer = 0
             Dim LastClickIndex As Integer = SendClickTracker(IndexCounter - 1)
+
+            If TimerIndexCheck = 1 Then
+                SendValue = 1
+            ElseIf TimerIndexCheck = 2 Or TimerIndexCheck = 3 Then
+                SendValue = 2
+            ElseIf TimerIndexCheck = 4 Then
+                SendValue = 3
+            End If
+            SendClick(SendValue)
+            Sleep(500)
 
             If LastClickIndex = 1 Then
                 SendValue = 1
@@ -515,13 +531,11 @@ Public Class SummonerAssistant
             ElseIf LastClickIndex = 4 Then
                 SendValue = 3
             End If
-
-            Console.WriteLine($"LastClickIndex : " + SendClickTracker(IndexCounter - 1).ToString() + " , SendValue Should be : " + SendValue.ToString())
-            Console.WriteLine()
-
             SendClick(SendValue)
+
+            'Console.WriteLine($"LastClickIndex : " + SendClickTracker(IndexCounter - 1).ToString() + " , SendValue Should be : " + SendValue.ToString())
+            'Console.WriteLine()
             Sleep(100)
-            SendClick(SendValue)
 
             IndexCounter = 0
         End If
