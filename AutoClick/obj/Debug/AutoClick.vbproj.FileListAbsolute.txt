@@ -45,3 +45,15 @@ D:\AutoClick(Summoner War) - (Sub)\AutoClick\obj\Debug\AutoClick.xml
 D:\AutoClick(Summoner War) - (Sub)\AutoClick\obj\Debug\AutoClick.pdb
 D:\AutoClick(Summoner War) - (Sub)\AutoClick\obj\Debug\AutoClick.SummonerAssistant.resources
 D:\AutoClick(Summoner War) - (Sub)\AutoClick\obj\Debug\AutoClick.vbprojResolveAssemblyReference.cache
+C:\Users\ReplacedToy\source\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\AutoClick.exe.config
+C:\Users\ReplacedToy\source\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\AutoClick.exe
+C:\Users\ReplacedToy\source\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\AutoClick.pdb
+C:\Users\ReplacedToy\source\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\AutoClick.xml
+C:\Users\ReplacedToy\source\AutoClick(Summoner War) - (Sub)\AutoClick\obj\Debug\AutoClick.vbprojResolveAssemblyReference.cache
+C:\Users\ReplacedToy\source\AutoClick(Summoner War) - (Sub)\AutoClick\obj\Debug\AutoClick.SummonerAssistant.resources
+C:\Users\ReplacedToy\source\AutoClick(Summoner War) - (Sub)\AutoClick\obj\Debug\AutoClick.Resources.resources
+C:\Users\ReplacedToy\source\AutoClick(Summoner War) - (Sub)\AutoClick\obj\Debug\AutoClick.vbproj.GenerateResource.Cache
+C:\Users\ReplacedToy\source\AutoClick(Summoner War) - (Sub)\AutoClick\obj\Debug\AutoClick.vbproj.CoreCompileInputs.cache
+C:\Users\ReplacedToy\source\AutoClick(Summoner War) - (Sub)\AutoClick\obj\Debug\AutoClick.exe
+C:\Users\ReplacedToy\source\AutoClick(Summoner War) - (Sub)\AutoClick\obj\Debug\AutoClick.xml
+C:\Users\ReplacedToy\source\AutoClick(Summoner War) - (Sub)\AutoClick\obj\Debug\AutoClick.pdb

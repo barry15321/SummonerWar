@@ -43,6 +43,7 @@ Public Class SummonerAssistant
     End Structure
 
     Dim rectwin As RECT
+    Dim TargetWindowRect As RECT
 
 #Region "CaptureDC"
     Private Declare Function CreateDC Lib "gdi32" Alias "CreateDCA" (ByVal lpDriverName As String, ByVal lpDeviceName As String, ByVal lpOutput As String, ByVal lpInitData As String) As Integer
@@ -246,22 +247,28 @@ Public Class SummonerAssistant
         End Try
     End Function
 
-    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' 0902 -> Setparent window on BlueStacks . Select DirectX GPU + CaptureSrceen
-        index = 0
-        'img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\flash.png") : pt(index) = New Point(643, 405) : index += 1
-        'img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\sell.png") : pt(index) = New Point(511, 616) : index += 1
-        'img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\check.png") : pt(index) = New Point(612, 598) : index += 1
-        'img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\GetMonsterCheck.png") : pt(index) = New Point(612, 643) : index += 1
-        'img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\again_contentbar.png") : pt(index) = New Point(332, 432) : index += 1
-        'img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\ClipImage\cancel.png") : pt(index) = New Point(847, 239) : index += 1
+    Private Sub AssistantForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
-        img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\BlackholeImage\cyrstal.png") : pt(index) = New Point(751, 419) : index += 1
-        img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\BlackholeImage\check.png") : pt(index) = New Point(616, 652) : index += 1
-        img(index) = Image.FromFile("D:\AutoClick(Summoner War) - (Sub)\AutoClick\bin\Debug\BlackholeImage\content_bar.png") : pt(index) = New Point(427, 426) : index += 1
+        index = 0
+        'img(index) = Image.FromFile(System.Environment.CurrentDirectory + "\\WaterGuardTower\\Crystal.png") : pt(index) = New Point(1168, 445) : index += 1
+        'img(index) = Image.FromFile(System.Environment.CurrentDirectory + "\\WaterGuardTower\\AgainButton.png") : pt(index) = New Point(372, 458) : index += 1
+        'img(index) = Image.FromFile(System.Environment.CurrentDirectory + "\\WaterGuardTower\\ConfirmButton.png") : pt(index) = New Point(784, 737) : index += 1
+        'img(index) = Image.FromFile(System.Environment.CurrentDirectory + "\\WaterGuardTower\\CancelButton.png") : pt(index) = New Point(1032, 307) : index += 1
+
+        img(index) = Image.FromFile(System.Environment.CurrentDirectory + "\\FireMountain\\Crystal.png") : pt(index) = New Point(1168, 445) : index += 1
+        img(index) = Image.FromFile(System.Environment.CurrentDirectory + "\\FireMountain\\SellButton.png") : pt(index) = New Point(676, 671) : index += 1
+        img(index) = Image.FromFile(System.Environment.CurrentDirectory + "\\FireMountain\\CheckButton.png") : pt(index) = New Point(-1, -1) : index += 1
+        img(index) = Image.FromFile(System.Environment.CurrentDirectory + "\\FireMountain\\AgainButton.png") : pt(index) = New Point(375, 457) : index += 1
 
         index = 0
         hwnd = FindWindow(vbNullString, "BlueStacks")
+
+        GetWindowRect(hwnd, rectwin)
+        Console.WriteLine(rectwin.Left.ToString + " " + rectwin.Right.ToString + " " + rectwin.Top.ToString + " " + rectwin.Bottom.ToString)
+
+        Me.Text = rectwin.Left.ToString + " " + rectwin.Right.ToString + " " + rectwin.Top.ToString + " " + rectwin.Bottom.ToString
+        Me.Width = rectwin.Right - rectwin.Left
+        Me.Height = rectwin.Bottom - rectwin.Top
 
         If (hwnd) Then
             EnumWindows(hwnd)
@@ -271,21 +278,40 @@ Public Class SummonerAssistant
         SetParent(hwnd, PictureBox1.Handle)
         SetWindowPos(hwnd, 0, 0, 0, Me.Width, Me.Height, 4)
 
-        GetWindowRect(hwnd, rectwin)
-        'Me.Text = rectwin.Left.ToString + " " + rectwin.Right.ToString + " " + rectwin.Top.ToString + " " + rectwin.Bottom.ToString
+        Me.Text = "hwnd = " + hwnd.ToString() + " , hwnd2 = " + hwnd2.ToString()
+        Assistance_Timer.Enabled = False
+        KeyboardTrigger_Timer.Enabled = True
+        Assistance_Timer.Interval = 100
+        KeyboardTrigger_Timer.Interval = 100
+    End Sub
 
-        Timer1.Enabled = False
-        Timer2.Enabled = True
-        Timer1.Interval = 100
-        Timer2.Interval = 100
+    Private Sub AssistantForm_Closing(sender As Object, e As EventArgs) Handles MyBase.FormClosing
+        If Not (hwnd = IntPtr.Zero) Then
+            Dim p() As Process = Process.GetProcessesByName("Bluestacks")
+
+            p(0).Kill()
+
+            p = Process.GetProcessesByName("HD-Agent")
+            p(0).Kill()
+
+            p = Process.GetProcessesByName("HD-Player")
+            p(0).Kill()
+
+            p = Process.GetProcessesByName("BstkSVC")
+            p(0).Kill()
+
+            hwnd = IntPtr.Zero
+        End If
     End Sub
 
     Sub EnumWindows(h As Integer)
         Dim h2 As Integer = 0
         Dim lpString As String = New String(Chr(0), 255)
         Dim Ret As Integer '= GetWindowText(Me.Handle, lpString, 255)
+        Console.WriteLine("h : " + h.ToString())
         While True
             h2 = FindWindowEx(h, h2, vbNullString, vbNullString)
+            Console.WriteLine("h2 : " + h2.ToString())
             If h2 Then
                 Ret = GetWindowText(h2, lpString, 255)
                 If String.Compare(lpString, target, False) = 0 Then
@@ -355,11 +381,11 @@ Public Class SummonerAssistant
         bmp.Dispose()
         Me.BackgroundImage = Nothing
         Me.Refresh()
-        Timer3.Enabled = False
+        SearchIndexImage.Enabled = False
 
     End Sub
 
-    Private Sub Timer1_Tick(sender As System.Object, e As System.EventArgs) Handles Timer1.Tick
+    Private Sub Assistance_Timer_Tick(sender As System.Object, e As System.EventArgs) Handles Assistance_Timer.Tick
         CaptureScreen()
         PictureBox1.Image = bmpBackground
 
@@ -376,16 +402,23 @@ Public Class SummonerAssistant
                 Sleep(400)
                 SendClick(index)
                 Sleep(800)
-                CaptureSubScreen()
-                For st = 1 To 3
-                    If (SubBG(st) = True) Then
-                        index = st
-                        Exit For
-                    End If
-                Next
+
+                SendClick(1)
+                Sleep(500)
+                SendClick(2)
+                Sleep(500)
+
+                index = 4
+                'CaptureSubScreen()
+                'For st = 1 To 3
+                '    If (SubBG(st) = True) Then
+                '        index = st
+                '        Exit For
+                '    End If
+                'Next
                 Sleep(100)
                 SendClickTracker_Track()
-                SubBackground.Dispose()
+                'SubBackground.Dispose()
             ElseIf index = 1 Then
                 SendClick(index) ' 1 = Press B
                 index = 4
@@ -435,16 +468,20 @@ Public Class SummonerAssistant
 
     End Sub
 
-    Private Sub Timer2_Tick(sender As System.Object, e As System.EventArgs) Handles Timer2.Tick
+    Private Sub KeyboardTrigger_Tick(sender As System.Object, e As System.EventArgs) Handles KeyboardTrigger_Timer.Tick
         If GetAsyncKeyState(Keys.F1) Then
-            Timer1.Enabled = True
+            Assistance_Timer.Enabled = True
+
         ElseIf GetAsyncKeyState(Keys.F2) Then
-            Timer1.Enabled = False
+            Assistance_Timer.Enabled = False
             Me.Text = "AutoClick Stop."
+
         ElseIf GetAsyncKeyState(Keys.F3) Then 'Search Bitmap
-            Timer3.Enabled = True
+            SearchIndexImage.Enabled = True
+
         ElseIf GetAsyncKeyState(Keys.F4) Then 'Capture winform Window
-            Timer4.Enabled = True
+            CaptureImage.Enabled = True
+
         ElseIf GetAsyncKeyState(Keys.F5) Then
             index += 1
             Me.Text = "index = " + index.ToString()
@@ -454,12 +491,14 @@ Public Class SummonerAssistant
         ElseIf GetAsyncKeyState(Keys.F7) Then
             'Simulate Press Key
             SendClick(index)
+
         End If
     End Sub
 
-    Private Sub Timer3_Tick(sender As Object, e As EventArgs) Handles Timer3.Tick
+    Private Sub SearchIndexImage_Tick(sender As Object, e As EventArgs) Handles SearchIndexImage.Tick
 
         Dim SearchResult As Point
+
         CaptureScreen()
         PictureBox1.Image = bmpBackground
 
@@ -468,27 +507,26 @@ Public Class SummonerAssistant
 
         bmpBackground.Dispose()
 
-        Timer3.Stop()
+        SearchIndexImage.Stop()
     End Sub
 
-    Private Sub Timer4_Tick(sender As Object, e As EventArgs) Handles Timer4.Tick
+    Private Sub CaptureImage_Tick(sender As Object, e As EventArgs) Handles CaptureImage.Tick
 
         index += 1
         Me.Text = index.ToString
 
-        Dim dt As DateTime = DateTime.Now
-        Dim str As String = dt.ToString("yyyy-MM-dd-hh-mm-ss")
+        Dim str As String = DateTime.Now.ToString("yyyy-MM-dd-hh-mm-ss")
         Console.WriteLine("dt : " + str)
         CaptureScreen()
-        'bmpBackground.Save("CaptureScreen_" + index.ToString + ".png")
         bmpBackground.Save("CaptureScreen_" + str + ".png")
+
         Me.Text = Me.Text + " , " + str
 
         Sleep(100)
 
         bmpBackground = Nothing
 
-        Timer4.Enabled = False
+        CaptureImage.Enabled = False
     End Sub
 
     Private Sub Timer5_Tick(sender As Object, e As EventArgs) Handles Timer5.Tick

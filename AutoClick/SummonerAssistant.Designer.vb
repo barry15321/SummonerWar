@@ -23,44 +23,46 @@ Partial Class SummonerAssistant
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
+        Me.Assistance_Timer = New System.Windows.Forms.Timer(Me.components)
+        Me.KeyboardTrigger_Timer = New System.Windows.Forms.Timer(Me.components)
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
-        Me.Timer3 = New System.Windows.Forms.Timer(Me.components)
+        Me.SearchIndexImage = New System.Windows.Forms.Timer(Me.components)
         Me.Button1 = New System.Windows.Forms.Button()
-        Me.Timer4 = New System.Windows.Forms.Timer(Me.components)
+        Me.CaptureImage = New System.Windows.Forms.Timer(Me.components)
         Me.Timer5 = New System.Windows.Forms.Timer(Me.components)
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
-        'Timer1
+        'Assistance_Timer
         '
         '
-        'Timer2
+        'KeyboardTrigger_Timer
         '
         '
         'PictureBox1
         '
         Me.PictureBox1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PictureBox1.Location = New System.Drawing.Point(0, 0)
+        Me.PictureBox1.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(1264, 762)
+        Me.PictureBox1.Size = New System.Drawing.Size(508, 363)
         Me.PictureBox1.TabIndex = 4
         Me.PictureBox1.TabStop = False
         '
-        'Timer3
+        'SearchIndexImage
         '
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(1279, 102)
+        Me.Button1.Location = New System.Drawing.Point(1492, 136)
+        Me.Button1.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(75, 23)
+        Me.Button1.Size = New System.Drawing.Size(87, 31)
         Me.Button1.TabIndex = 5
         Me.Button1.Text = "Capture"
         Me.Button1.UseVisualStyleBackColor = True
         '
-        'Timer4
+        'CaptureImage
         '
         '
         'Timer5
@@ -70,23 +72,25 @@ Partial Class SummonerAssistant
         '
         'SummonerAssistant
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1264, 762)
+        Me.ClientSize = New System.Drawing.Size(508, 363)
         Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.Button1)
+        Me.Font = New System.Drawing.Font("微軟正黑體", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(136, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
+        Me.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.Name = "SummonerAssistant"
         Me.Text = "SummonersWar"
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
-    Friend WithEvents Timer1 As Timer
-    Friend WithEvents Timer2 As Timer
+    Friend WithEvents Assistance_Timer As Timer
+    Friend WithEvents KeyboardTrigger_Timer As Timer
     Friend WithEvents PictureBox1 As PictureBox
-    Friend WithEvents Timer3 As Timer
+    Friend WithEvents SearchIndexImage As Timer
     Friend WithEvents Button1 As Button
-    Friend WithEvents Timer4 As Timer
+    Friend WithEvents CaptureImage As Timer
     Friend WithEvents Timer5 As Timer
 End Class
