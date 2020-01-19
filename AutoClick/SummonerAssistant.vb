@@ -257,8 +257,8 @@ Public Class SummonerAssistant
 
         img(index) = Image.FromFile(System.Environment.CurrentDirectory + "\\FireMountain\\Crystal.png") : pt(index) = New Point(1168, 445) : index += 1
         img(index) = Image.FromFile(System.Environment.CurrentDirectory + "\\FireMountain\\SellButton.png") : pt(index) = New Point(676, 671) : index += 1
-        img(index) = Image.FromFile(System.Environment.CurrentDirectory + "\\FireMountain\\CheckButton.png") : pt(index) = New Point(-1, -1) : index += 1
-        img(index) = Image.FromFile(System.Environment.CurrentDirectory + "\\FireMountain\\AgainButton.png") : pt(index) = New Point(375, 457) : index += 1
+        img(index) = Image.FromFile(System.Environment.CurrentDirectory + "\\FireMountain\\ConfirmButton.png") : pt(index) = New Point(790, 657) : index += 1
+        img(index) = Image.FromFile(System.Environment.CurrentDirectory + "\\FireMountain\\Map.png") : pt(index) = New Point(1077, 677) : index += 1
 
         index = 0
         hwnd = FindWindow(vbNullString, "BlueStacks")
@@ -359,8 +359,13 @@ Public Class SummonerAssistant
             key = Keys.F
             Console.WriteLine("$Click F")
         End If
+
         SendClickTracker(IndexCounter) = index
         IndexCounter += 1
+
+        'PostMessage(hwnd, WM_KEYDOWN, key, MAKELPARAM(key, WM_KEYDOWN))
+        'PostMessage(hwnd, WM_KEYUP, key, MAKELPARAM(key, WM_KEYUP))
+
         PostMessage(hwnd2, WM_KEYDOWN, key, MAKELPARAM(key, WM_KEYDOWN))
         PostMessage(hwnd2, WM_KEYUP, key, MAKELPARAM(key, WM_KEYUP))
         Sleep(500)
@@ -390,6 +395,7 @@ Public Class SummonerAssistant
         PictureBox1.Image = bmpBackground
 
         turn = SearchBitmap(bmpBackground, img(index), pt(index).X, pt(index).Y)
+        Sleep(300)
         If (turn <> pt(index)) Then
             Me.Text = "AutoClick Searching ... Index : " + index.ToString() + " (False)"
         Else
@@ -403,30 +409,28 @@ Public Class SummonerAssistant
                 SendClick(index)
                 Sleep(800)
 
-                SendClick(1)
-                Sleep(500)
-                SendClick(2)
-                Sleep(500)
+                CaptureSubScreen()
+                For st = 1 To 2
+                    If (SubBG(st) = True) Then
+                        index = st
+                        Exit For
+                    End If
+                Next
 
-                index = 4
-                'CaptureSubScreen()
-                'For st = 1 To 3
-                '    If (SubBG(st) = True) Then
-                '        index = st
-                '        Exit For
-                '    End If
-                'Next
-                Sleep(100)
-                SendClickTracker_Track()
-                'SubBackground.Dispose()
-            ElseIf index = 1 Then
+                Sleep(300)
+                SubBackground.Dispose()
+
+                If index = 0 Then
+                    SendClick(1)
+                    SendClick(2)
+                    index = 3
+                End If
+                'SendClickTracker_Track()
+            ElseIf index = 1 Or index = 2 Then
                 SendClick(index) ' 1 = Press B
-                index = 4
-            ElseIf index = 2 Or index = 3 Then
-                SendClick(2) ' 2 = Press C
-                index = 4
-            ElseIf index = 4 Then
-                SendClick(3) ' = Press D
+                index = 3
+            ElseIf index = 3 Then
+                SendClick(index) ' = Press D
                 index = 0
             End If
 
