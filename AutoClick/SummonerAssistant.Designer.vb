@@ -67,7 +67,6 @@ Partial Class SummonerAssistant
         '
         'Timer5
         '
-        Me.Timer5.Enabled = True
         Me.Timer5.Interval = 25000
         '
         'SummonerAssistant

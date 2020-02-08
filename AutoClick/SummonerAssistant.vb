@@ -249,6 +249,7 @@ Public Class SummonerAssistant
 
     Private Sub AssistantForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
+        Console.WriteLine("load")
         index = 0
         'img(index) = Image.FromFile(System.Environment.CurrentDirectory + "\\WaterGuardTower\\Crystal.png") : pt(index) = New Point(1168, 445) : index += 1
         'img(index) = Image.FromFile(System.Environment.CurrentDirectory + "\\WaterGuardTower\\AgainButton.png") : pt(index) = New Point(372, 458) : index += 1
@@ -260,9 +261,15 @@ Public Class SummonerAssistant
         img(index) = Image.FromFile(System.Environment.CurrentDirectory + "\\FireMountain\\ConfirmButton.png") : pt(index) = New Point(790, 657) : index += 1
         img(index) = Image.FromFile(System.Environment.CurrentDirectory + "\\FireMountain\\Map.png") : pt(index) = New Point(1077, 677) : index += 1
 
+        'img(index) = Image.FromFile(System.Environment.CurrentDirectory + "\\Dimension\\928_448_Crystal.png") : pt(index) = New Point(928, 448) : index += 1
+        'img(index) = Image.FromFile(System.Environment.CurrentDirectory + "\\Dimension\\784_703_Confirm.png") : pt(index) = New Point(784, 703) : index += 1
+        'img(index) = Image.FromFile(System.Environment.CurrentDirectory + "\\Dimension\\910_677_Monster.png") : pt(index) = New Point(910, 677) : index += 1
+
+        Console.WriteLine("find.")
         index = 0
         hwnd = FindWindow(vbNullString, "BlueStacks")
 
+        Console.WriteLine("find.")
         GetWindowRect(hwnd, rectwin)
         Console.WriteLine(rectwin.Left.ToString + " " + rectwin.Right.ToString + " " + rectwin.Top.ToString + " " + rectwin.Bottom.ToString)
 
@@ -286,22 +293,22 @@ Public Class SummonerAssistant
     End Sub
 
     Private Sub AssistantForm_Closing(sender As Object, e As EventArgs) Handles MyBase.FormClosing
-        If Not (hwnd = IntPtr.Zero) Then
-            Dim p() As Process = Process.GetProcessesByName("Bluestacks")
+        'If Not (hwnd = IntPtr.Zero) Then
+        '    Dim p() As Process = Process.GetProcessesByName("Bluestacks")
 
-            p(0).Kill()
+        '    p(0).Kill()
 
-            p = Process.GetProcessesByName("HD-Agent")
-            p(0).Kill()
+        '    p = Process.GetProcessesByName("HD-Agent")
+        '    p(0).Kill()
 
-            p = Process.GetProcessesByName("HD-Player")
-            p(0).Kill()
+        '    p = Process.GetProcessesByName("HD-Player")
+        '    p(0).Kill()
 
-            p = Process.GetProcessesByName("BstkSVC")
-            p(0).Kill()
+        '    p = Process.GetProcessesByName("BstkSVC")
+        '    p(0).Kill()
 
-            hwnd = IntPtr.Zero
-        End If
+        '    hwnd = IntPtr.Zero
+        'End If
     End Sub
 
     Sub EnumWindows(h As Integer)
@@ -360,8 +367,8 @@ Public Class SummonerAssistant
             Console.WriteLine("$Click F")
         End If
 
-        SendClickTracker(IndexCounter) = index
-        IndexCounter += 1
+        'SendClickTracker(IndexCounter) = index
+        'IndexCounter += 1
 
         'PostMessage(hwnd, WM_KEYDOWN, key, MAKELPARAM(key, WM_KEYDOWN))
         'PostMessage(hwnd, WM_KEYUP, key, MAKELPARAM(key, WM_KEYUP))
@@ -401,11 +408,38 @@ Public Class SummonerAssistant
         Else
             Me.Text = "AutoClick Searching ... Index : " + index.ToString() + " (True) , SearchPoint = (" + turn.X.ToString() + " , " + turn.Y.ToString() + ")"
 
+#Region "Dimension"
+
+            'If (index = 0) Then
+            '    SendClick(index)
+            '    Sleep(500)
+            '    SendClick(index)
+            '    Sleep(600)
+            '    SendClick(index)
+            '    Sleep(800)
+            '    index = 1
+            '    Sleep(300)
+            '    'SendClickTracker_Track()
+            'ElseIf index = 1 Then
+            '    SendClick(index)
+            '    Sleep(500)
+            '    SendClick(index + 1)
+            '    Sleep(500)
+            '    index = 2
+            'ElseIf index = 2 Then
+            '    SendClick(3) ' = Press D
+            '    index = 0
+            'End If
+
+#End Region
+
+#Region "FireMountain"
+
             If (index = 0) Then
                 SendClick(index)
-                Sleep(200)
+                Sleep(500)
                 SendClick(index)
-                Sleep(400)
+                Sleep(600)
                 SendClick(index)
                 Sleep(800)
 
@@ -433,6 +467,8 @@ Public Class SummonerAssistant
                 SendClick(index) ' = Press D
                 index = 0
             End If
+
+#End Region
 
             PictureBox1.Image.Save("Capture_B1.png")
         End If
